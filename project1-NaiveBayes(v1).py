@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Created on Tue Feb 16 14:12:50 2021
+Created on Tue Feb 8 09:19:30 2021
 
 @author: Zirak
 """
@@ -74,83 +74,33 @@ def get_TF_IDF(tf, idf):
                 break
     return tf_idf
 
-set_name = "X_small_train.txt"
-# set_name = "X_train.txt"
-# url = "data/train/" + set_name
-url = 'https://storage.googleapis.com/uga-dsp/project1/files/' + set_name
-file_names = pd.read_csv(url, header=None)[0].to_numpy()
 
 
 
-all_file_words = []
-for file_name in file_names:
-#     file_name = "data/train/" + file_name + ".bytes"
-    file_name = "https://storage.googleapis.com/uga-dsp/project1/data/bytes/" + file_name + ".bytes"
-    
-    all_file_words.append(get_words_for_document(file_name))
-idf = get_IDF(all_file_words)
+###########################  Small Training Data  ############################
 
+#X_Small_Train 
+X_small_train = df.read_csv("C:/Users/Zirak/Project1/data/X_small_train.txt.csv")
 
-idf = np.asarray(idf.topk(256, key=0).compute())
-
-
-cols = np.arange(255, -1, -1).astype(str)
-pd_df = pd.DataFrame(columns=cols)
-
-for file_words in all_file_words:
-    tf_idf_bag_array = get_TF_IDF(file_words, idf)
-    pd_df = pd_df.append(tf_idf_bag_array, ignore_index=True)
-    
-    
-
-
-csv_name = "C:/Users/Zirak/Project1/data/" + set_name + ".csv"
-pd_df.to_csv(csv_name)
-
-tf_idf_df = df.from_pandas(pd_df, npartitions=1)
-final_dataframe = tf_idf_df.compute()
-
-
-final_dataframe
-
-
-
-#Naive Bayes Experimentation
-
-X_small_data = df.read_csv("C:/Users/Zirak/Project1/data/X_small_train.txt.csv")
-
+#y_Small_Train 
 set_name1 = "y_small_train.txt"
-# set_name = "X_train.txt"
-# url = "data/train/" + set_name
 url = 'https://storage.googleapis.com/uga-dsp/project1/files/' + set_name1
-y_small_labels = pd.read_csv(url, header=None)[0].to_numpy().reshape(-1,1)
+y_small_train = pd.read_csv(url, header=None)[0]   #.to_numpy().reshape(-1,1)
 
 
-#from dask_ml.preprocessing import OneHotEncoder
-
-#encoder = OneHotEncoder(sparse=True)
-#y_small_labels_onehot = encoder.fit(y_small_labels)
 
 
-model = naive_bayes.GaussianNB()
+############################  Small Test Data  ###############################
 
-#model.fit(X_small_data, y_small_labels)
-model.fit(final_dataframe, y_small_labels)
-
-
-#Setting Prediction data/test data
-set_name2 = "X_small_test.txt"
-url = 'https://storage.googleapis.com/uga-dsp/project1/files/' + set_name2
+#X_small_test
+set_name_x_test = "X_small_test.txt"
+url = 'https://storage.googleapis.com/uga-dsp/project1/files/' + set_name_x_test
 file_name_x_test = pd.read_csv(url, header=None)[0].to_numpy()
-
-
-
-
 
 
 all_file_words_x_test = []
 for file_name in file_name_x_test:
-#     file_name = "data/train/" + file_name + ".bytes"
+    
     file_name = "https://storage.googleapis.com/uga-dsp/project1/data/bytes/" + file_name + ".bytes"
     
     all_file_words_x_test.append(get_words_for_document(file_name))
@@ -171,5 +121,93 @@ set_name_test = "X_small_test"
 csv_name_test = "C:/Users/Zirak/Project1/data/" + set_name_test + ".csv"
 pd_df_x_test.to_csv(csv_name_test)   
 
+#y_small_test
+set_name2 = "y_small_train.txt"
+url = 'https://storage.googleapis.com/uga-dsp/project1/files/' + set_name2
+y_small_test = pd.read_csv(url, header=None)[0]
 
-prediction = model.predict(pd_df_x_test)
+
+
+
+
+
+############################## Extra Stuff ###################################
+
+#from dask_ml.preprocessing import OneHotEncoder
+#encoder = OneHotEncoder(sparse=True)
+#y_small_labels_onehot = encoder.fit(y_small_labels)
+#model = naive_bayes.GaussianNB()
+#model.fit(X_small_data, y_small_labels)
+#model.fit(final_dataframe, y_small_labels)
+
+############################## ----------- ###################################
+
+
+
+
+
+###########################  Large Training Data  ############################
+
+#X_train data
+X_train = df.read_csv("C:/Users/Zirak/GitHub/gregory-p1/data/X_train.txt.csv")
+
+tf_idf_df_x_train = df.from_pandas(X_train, npartitions=1)
+final_dataframe = X_train.compute()
+final_dataframe.drop(final_dataframe.columns[[0]], axis=1, inplace=True)
+X_train = final_dataframe
+
+#y_train data
+set_name_y_train_large = "y_train.txt"
+url = 'https://storage.googleapis.com/uga-dsp/project1/files/' + set_name_y_train_large
+y_train = pd.read_csv(url, header=None)[0]#.to_numpy()#.reshape(-1,1)
+
+
+
+############################### NaiveBayes ###################################
+
+from sklearn.naive_bayes import MultinomialNB
+model = MultinomialNB().fit(X_train, y_train)
+
+
+
+
+############################  Large Test Data  ###############################
+
+#X_test data
+set_name_x_test_large= "X_test.txt"
+url = 'https://storage.googleapis.com/uga-dsp/project1/files/' + set_name_x_test_large
+file_name_x_test_large = pd.read_csv(url, header=None)[0].to_numpy()
+
+
+all_file_words_x_test_large = []
+for file_name in file_name_x_test_large:
+#     file_name = "data/train/" + file_name + ".bytes"
+    file_name = "https://storage.googleapis.com/uga-dsp/project1/data/bytes/" + file_name + ".bytes"
+    
+    all_file_words_x_test_large.append(get_words_for_document(file_name))
+idf_x_test_large = get_IDF(all_file_words_x_test_large)
+
+
+idf_x_test_large = np.asarray(idf_x_test_large.topk(256, key=0).compute())
+
+
+cols = np.arange(255, -1, -1).astype(str)
+pd_df_x_test_large = pd.DataFrame(columns=cols)
+
+for file_words in all_file_words_x_test_large:
+    tf_idf_bag_array_test_large = get_TF_IDF(file_words, idf_x_test_large)
+    pd_df_x_test_large = pd_df_x_test_large.append(tf_idf_bag_array_test_large, ignore_index=True)
+  
+set_name_test_large = "X_test"    
+csv_name_test_large = "C:/Users/Zirak/Project1/data/" + set_name_test_large + ".csv"
+pd_df_x_test_large.to_csv(csv_name_test_large)   
+
+
+
+
+#################### Predicted Y_Test on Large Test Data ####################
+
+y_test = model.predict(pd_df_x_test_large)
+
+np.savetxt("C:/Users/Zirak/Project1/data/y_test.txt", y_test.astype(int), fmt ='%.0f')
+
