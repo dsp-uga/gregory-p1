@@ -2,7 +2,7 @@
 """
 Created on Tue Feb 8 09:19:30 2021
 
-@author: Zirak
+@author: gregory
 """
 
 import dask.bag as db
