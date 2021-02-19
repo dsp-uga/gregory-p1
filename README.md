@@ -14,8 +14,13 @@
 <li><i>Obfuscator.ACY</i></li></ul>
 
 The files in the dataset contains only hexadecimal codes. The challenge is to design and develop a Classification model that can classify around 2721 test documents into the above mentioned 9 Malware categories. 
+## Installation
+* [Dask](https://docs.dask.org/en/latest/install.html)
+* [Google Cloud Platform](https://cloud.google.com/) or alternatively you can use [Coiled](https://cloud.coiled.io/)
 
 ## Approach
+* Create a Dask cluster with the required configuration as per your dataset volume
+* Connect it through Web Interface / SSH and open Jupyter Notebook
 * Parse the file and extract all the words
 * Remove stopwords, punctuations
 * Calculate TF-IDF values and create a dataframe
@@ -39,5 +44,6 @@ This project is licensed under the MIT License - see the <a href="https://github
 ## References
 <ul> <li><a href = "https://machinelearningmastery.com/naive-bayes-classifier-scratch-python/"> https://machinelearningmastery.com/naive-bayes-classifier-scratch-python/ </a></li> 
 <li><a href = "https://docs.dask.org/en/latest/"> https://docs.dask.org/en/latest/ </a></li> 
+  <li><a href = "https://cloud.coiled.io/"> Coiled Cloud Platform </a></li> 
 <li><a href = "https://towardsdatascience.com/naive-bayes-document-classification-in-python-e33ff50f937e"> https://towardsdatascience.com/naive-bayes-document-classification-in-python-e33ff50f937e </a></li>  
 </ul> 
