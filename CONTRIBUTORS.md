@@ -6,4 +6,7 @@
   * Contributed to README file 
   
 * Yogesh Chaudhari
+  * Generated dask dataframe from the bytes files
+  * Ran SK Learn classification models on the dataframes
+
 * Zirak Khan
