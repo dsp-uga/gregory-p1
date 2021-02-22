@@ -34,6 +34,8 @@ The files in the dataset contains only hexadecimal codes. The challenge is to de
 We estimated the probability of the documents by testing it against the trained Naive Bayes classifier and got the accuracy around 66%. By changing the classifier to Logistic Regression, we almost got 84% accuracy which is an improvement from our previous step.
 
 ## Contributions
+Please see [CONTRIBUTORS](https://github.com/dsp-uga/gregory-p1/blob/main/CONTRIBUTORS.md) file for more details.
+## Authors 
 <ul> <li><a href= "https://github.com/yogeshchaudhari"> Yogesh Chaudhari</a></li>
 <li><a href = "https://github.com/shophine"> Shophine Sivaraja</a></li>
 <li><a href ="https://github.com/zirakachakzai" > Zirak Khan </a></li></ul>
