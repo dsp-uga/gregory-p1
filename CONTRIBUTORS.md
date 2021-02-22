@@ -10,3 +10,6 @@
   * Ran SK Learn classification models on the dataframes
 
 * Zirak Khan
+  * Created csv files of the train and test data
+  * Executed pre-built NaiveBayes classifiers (Sklearn & DaskML) on the dataframes
+  * Created & Organized README File
